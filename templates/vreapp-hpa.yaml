@@ -1,0 +1,28 @@
+{{- if .Values.vreapp.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "vrepaas.fullname" . }}-app
+  labels:
+    {{- include "vrepaas.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "vrepaas.fullname" . }}-app
+  minReplicas: {{ .Values.vreapp.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.vreapp.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.vreapp.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.vreapp.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.vreapp.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.vreapp.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}

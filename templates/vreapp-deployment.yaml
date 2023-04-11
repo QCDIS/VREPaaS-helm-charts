@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "vrepaas.fullname" . }}-app
+  labels:
+    {{- include "vrepaas.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.vreapp.autoscaling.enabled }}
+  replicas: {{ .Values.vreapp.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "vrepaas.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.vreapp.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "vrepaas.selectorLabels" . | nindent 8 }}
+        {{- with .Values.vreapp.podLabels }}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.vreapp.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "vrepaas.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.vreapp.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-app
+          securityContext:
+            {{- toYaml .Values.vreapp.securityContext | nindent 12 }}
+          image: "{{ .Values.vreapp.image.repository }}:{{ .Values.vreapp.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.vreapp.image.pullPolicy }}
+          env:
+            - name: NEXT_PUBLIC_ENV_NEXTAUTH_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-app"
+                  key: NEXT_PUBLIC_ENV_NEXTAUTH_URL
+            - name: NEXT_PUBLIC_ENV_VRE_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-app"
+                  key: NEXT_PUBLIC_ENV_VRE_API_URL
+            - name: NEXTAUTH_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-app"
+                  key: NEXTAUTH_URL
+            - name: NODE_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-app"
+                  key: NODE_ENV
+            - name: AUTH0_ID
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-app"
+                  key: AUTH0_ID
+            - name: AUTH0_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-app"
+                  key: AUTH0_SECRET
+            - name: AUTH0_ISSUER
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-app"
+                  key: AUTH0_ISSUER
+            - name: SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-app"
+                  key: SECRET
+          ports:
+            - name: http
+              containerPort: {{ .Values.vreapp.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.vreapp.resources | nindent 12 }}
+      {{- with .Values.vreapp.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.vreapp.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.vreapp.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

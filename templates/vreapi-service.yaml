@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "vrepaas.fullname" . }}-api
+  labels:
+    {{- include "vrepaas.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.vreapi.service.type }}
+  ports:
+    - port: {{ .Values.vreapi.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "vrepaas.selectorLabels" . | nindent 4 }}

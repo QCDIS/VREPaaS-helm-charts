@@ -1,0 +1,165 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "vrepaas.fullname" . }}-api
+  labels:
+    {{- include "vrepaas.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.vreapi.autoscaling.enabled }}
+  replicas: {{ .Values.vreapi.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "vrepaas.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.vreapi.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "vrepaas.selectorLabels" . | nindent 8 }}
+        {{- with .Values.vreapi.podLabels }}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.vreapi.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "vrepaas.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.vreapi.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-api
+          securityContext:
+            {{- toYaml .Values.vreapi.securityContext | nindent 12 }}
+          image: "{{ .Values.vreapi.image.repository }}:{{ .Values.vreapi.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.vreapi.image.pullPolicy }}
+          env:
+            - name: KEYCLOAK_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-api"
+                  key: KEYCLOAK_CLIENT_ID
+            - name: KEYCLOAK_CLIENT_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-api"
+                  key: KEYCLOAK_CLIENT_SECRET_KEY
+            - name: KEYCLOAK_SERVER_URL
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-api"
+                  key: KEYCLOAK_SERVER_URL
+            - name: KEYCLOAK_REALM
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-api"
+                  key: KEYCLOAK_REALM
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-api"
+                  key: SECRET_KEY
+            - name: DJANGO_SUPERUSER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-api"
+                  key: DJANGO_SUPERUSER_PASSWORD
+            - name: ARGO_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-api"
+                  key: ARGO_API_TOKEN
+            - name: DJANGO_SUPERUSER_EMAIL
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-api"
+                  key: DJANGO_SUPERUSER_EMAIL
+            - name: DJANGO_SUPERUSER_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-api"
+                  key: DJANGO_SUPERUSER_USERNAME
+            - name: DJANGO_SETTINGS_MODULE
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-api"
+                  key: DJANGO_SETTINGS_MODULE
+            - name: ARGO_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-api"
+                  key: ARGO_URL
+            - name: CALL_BACK_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-api"
+                  key: CALL_BACK_URL
+            - name: CORS_ALLOWED_ORIGIN_REGEXES
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-api"
+                  key: CORS_ALLOWED_ORIGIN_REGEXES
+            - name: TRUSTED_ORIGINS
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-api"
+                  key: TRUSTED_ORIGINS
+            - name: ALLOWED_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-api"
+                  key: ALLOWED_HOST
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-api"
+                  key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-api"
+                  key: DB_PORT
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-api"
+                  key: DB_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-api"
+                  key: DB_PASSWORD
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ include "vrepaas.fullname" . }}-api"
+                  key: DB_NAME
+          ports:
+            - name: http
+              containerPort: {{ .Values.vreapi.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /api
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /api
+              port: http
+          resources:
+            {{- toYaml .Values.vreapi.resources | nindent 12 }}
+      {{- with .Values.vreapi.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.vreapi.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.vreapi.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
