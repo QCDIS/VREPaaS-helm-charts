@@ -13,3 +13,6 @@ spec:
       name: http
   selector:
     {{- include "vrepaas.selectorLabels" . | nindent 4 }}
+    {{- with .Values.vreapp.podLabels }}
+    {{ toYaml . | nindent 4 }}
+    {{- end }}
