@@ -1,0 +1,49 @@
+vreapi:
+  replicaCount: 1
+
+  service:
+    type: ClusterIP
+    port: 8000
+
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+        nginx.ingress.kubernetes.io/add-base-url: "true"
+        nginx.ingress.kubernetes.io/backend-protocol: HTTP
+        nginx.ingress.kubernetes.io/force-ssl-redirect: 'false'
+        nginx.ingress.kubernetes.io/proxy-body-size: 600m
+        nginx.ingress.kubernetes.io/rewrite-target: /$2
+        nginx.org/client-max-body-size: 600m
+    hosts:
+      - host: localhost
+        paths:
+          - path: /vre-api(/|$)(.*)
+            pathType: Prefix
+    tls:
+      - secretName: localhost
+        hosts:
+          - localhost
+
+
+vreapp:
+
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+        nginx.ingress.kubernetes.io/add-base-url: "true"
+        nginx.ingress.kubernetes.io/backend-protocol: HTTP
+        nginx.ingress.kubernetes.io/force-ssl-redirect: 'false'
+        nginx.ingress.kubernetes.io/proxy-body-size: 600m
+        nginx.ingress.kubernetes.io/rewrite-target: /$2
+        nginx.org/client-max-body-size: 600m
+    hosts:
+      - host: localhost
+        paths:
+          - path: /vreapp(/|$)(.*)
+            pathType: Prefix
+    tls:
+      - secretName: localhost
+        hosts:
+          - localhost
