@@ -24,6 +24,12 @@ version: 0.1.0
 appVersion: "v1.0-alpha.1"
 
 dependencies:
+- condition: global.vreapiEnabled
+  name: vreapi
+  version: "0.1.0"
+- condition: global.vreappEnabled
+  name: vreapp
+  version: "0.1.0"
 - condition: global.postgresqlEnabled
   name: postgresql
   version: "15.x.x"

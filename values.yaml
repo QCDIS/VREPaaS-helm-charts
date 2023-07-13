@@ -1,4 +1,6 @@
 global:
+  vreapiEnabled: false
+  vreappEnabled: false
   postgresqlEnabled: true
   nameOverride: ""
   fullnameOverride: ""
