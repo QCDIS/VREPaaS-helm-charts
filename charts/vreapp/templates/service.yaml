@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "vreapp.fullname" . }}
+  labels:
+    {{- include "vreapp.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "vreapp.selectorLabels" . | nindent 4 }}
+    {{- with .Values.podLabels }}
+    {{ toYaml . | nindent 4 }}
+    {{- end }}

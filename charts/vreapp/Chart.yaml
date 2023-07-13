@@ -1,6 +1,6 @@
 apiVersion: v2
-name: vrepaas
-description: Helm charts to deploy the VREPaaS components to k8s
+name: vreapp
+description: app component of the VREPaaS
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -22,9 +22,3 @@ version: 0.1.0
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 appVersion: "v1.0-alpha.1"
-
-dependencies:
-- condition: global.postgresqlEnabled
-  name: postgresql
-  version: "15.x.x"
-  repository: "https://charts.bitnami.com/bitnami"
