@@ -32,5 +32,5 @@ dependencies:
   version: "0.1.0"
 - condition: global.postgresqlEnabled
   name: postgresql
-  version: "15.x.x"
+  version: "12.x.x"
   repository: "https://charts.bitnami.com/bitnami"

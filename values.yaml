@@ -2,10 +2,33 @@ global:
   vreapiEnabled: true
   vreappEnabled: false
   postgresqlEnabled: true
-  nameOverride: ""
-  fullnameOverride: ""
 
-  paths:
+  postgresql:
+    auth:
+      username: "vrepaas"
+      password: "vrepaas"
+      database: "vrepaas"
+    service:
+      ports:
+        postgresql: "5432"
+
+postgresql:
+  image:
+    tag: "15.3.0"
+
+  primary:
+    persistence:
+      enabled: false
+
+    initdb:
+      scripts:
+        create_extension.sh: |
+          #!/bin/sh
+          export PGPASSWORD=$POSTGRES_POSTGRES_PASSWORD
+          psql -U postgres -d $POSTGRES_DATABASE << EOF
+            CREATE EXTENSION IF NOT EXISTS postgis;
+            SELECT PostGIS_Version();
+          EOF
 
 
 vreapi:

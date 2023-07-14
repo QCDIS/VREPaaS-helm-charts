@@ -41,12 +41,6 @@ spec:
                 name: "{{ include "vreapi.fullname" . }}"
             - secretRef:
                 name: "{{ include "vreapi.fullname" . }}"
-          env:
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: "{{ .Release.Name }}-postgresql"
-                  key: postgres-password
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
