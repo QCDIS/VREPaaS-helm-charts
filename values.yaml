@@ -1,5 +1,5 @@
 global:
-  vreapiEnabled: false
+  vreapiEnabled: true
   vreappEnabled: false
   postgresqlEnabled: true
   nameOverride: ""
