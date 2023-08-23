@@ -65,17 +65,5 @@ Create the name of the service account to use
 Pick up base path from ingress configuration
 */}}
 {{- define "vreapp.basePath" -}}
-  {{- $hosts := .Values.ingress.hosts }}
-  {{- if eq (len $hosts) 0 }}
-    {{- printf "" }}
-  {{- else if eq (len $hosts) 1 }}
-    {{- $paths := (first $hosts).paths }}
-    {{- if eq (len $paths) 1 }}
-      {{- printf ((first $paths).path | clean) }}
-    {{- else }}
-      {{- fail ".Values.ingress.hosts[0].paths must contain exactly one element" }}
-    {{- end }}
-  {{- else }}
-    {{- fail ".Values.ingress.hosts must contain at most one element" }}
-  {{- end }}
+  {{- (index .Values.global.base_paths .Values.global.environment).vreapp }}
 {{- end }}
