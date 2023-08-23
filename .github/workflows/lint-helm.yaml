@@ -9,8 +9,7 @@ jobs:
     strategy:
       matrix:
         paths:
-          - "test-values/test-values1.yaml"
-          - "test-values/test-values2.yaml"
+          - "values.yaml"
     steps:
       - uses: actions/checkout@v3
 
