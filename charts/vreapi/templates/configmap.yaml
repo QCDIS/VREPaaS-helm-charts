@@ -9,7 +9,7 @@ data:
   ARGO_NAMESPACE: "{{ .Values.global.argo.namespace }}"
   ARGO_URL: "{{ .Values.global.argo.url }}"
   BASE_PATH: "{{ include "vreapi.basePath" . }}"
-  CALL_BACK_URL: "https://{{ .Values.global.ingress.host }}{{ include "vreapi.basePath" . }}/"
+  CALL_BACK_URL: "https://{{ .Values.global.ingress.host }}{{ .Values.global.ingress.port }}{{ include "vreapi.basePath" . }}/"
   DB_HOST: "{{ .Release.Name }}-postgresql"
   DB_NAME: "{{ .Values.global.postgresql.auth.database }}"
   DB_PASSWORD: "{{ .Values.global.postgresql.auth.password }}"
@@ -25,6 +25,6 @@ data:
   {{- else if contains "production" .Values.global.environment }}
   DJANGO_SETTINGS_MODULE: "vreapis.settings.production"
   ALLOWED_HOST: "*"
-  TRUSTED_ORIGINS: "https://{{ .Values.global.ingress.host }}"
+  TRUSTED_ORIGINS: "https://{{ .Values.global.ingress.host }}{{ .Values.global.ingress.port }}"
   CORS_ALLOWED_ORIGIN_REGEXES: '^https:\/\/{{ .Values.global.ingress.host | replace "." "\\." }}:\d+$'
   {{- end }}

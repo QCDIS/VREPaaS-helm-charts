@@ -23,6 +23,7 @@ global:
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
     host: "chart-example.local"
+    port: ""  # format ":1234"
     tls: []
     #  - secretName: chart-example-tls
     #    host: "chart-example.local"
