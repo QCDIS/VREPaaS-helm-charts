@@ -1,9 +1,7 @@
 1. Get the application URL by running these commands:
 {{- if .Values.global.ingress.enabled }}
-{{- range $host := .Values.global.ingress.hosts }}
-  http{{ if $.Values.global.ingress.tls }}s{{ end }}://{{ $host }}{{ include "vreapi.basePath" $ }}/api
-  http{{ if $.Values.global.ingress.tls }}s{{ end }}://{{ $host }}{{ include "vreapi.basePath" $ }}/admin
-{{- end }}
+  http{{ if .Values.global.ingress.tls }}s{{ end }}://{{ .Values.global.ingress.host }}{{ include "vreapi.basePath" $ }}/api
+  http{{ if .Values.global.ingress.tls }}s{{ end }}://{{ .Values.global.ingress.host }}{{ include "vreapi.basePath" $ }}/admin
 {{- else if contains "NodePort" .Values.service.type }}
   export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "vreapi.fullname" . }})
   export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")

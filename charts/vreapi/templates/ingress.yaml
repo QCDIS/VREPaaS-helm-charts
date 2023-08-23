@@ -37,8 +37,7 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    {{- range .Values.global.ingress.hosts }}
-    - host: {{ . | quote }}
+    - host: {{ .Values.global.ingress.host | quote }}
       http:
         paths:
           - path: "{{ include "vreapi.basePath" $ }}"
@@ -55,5 +54,4 @@ spec:
               serviceName: {{ $fullName }}
               servicePort: {{ $svcPort }}
               {{- end }}
-    {{- end }}
 {{- end }}
