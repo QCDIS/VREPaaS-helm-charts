@@ -1,7 +1,9 @@
 global:
   vreapiEnabled: true
-  vreappEnabled: false
+  vreappEnabled: true
   postgresqlEnabled: true
+
+  environment: test
 
   postgresql:
     auth:
