@@ -3,7 +3,7 @@ global:
   vreappEnabled: true
   postgresqlEnabled: true
 
-  environment: test
+  environment: production
 
   # base path for each environment (must match VREPaaS/vre-panel/.env.*)
   base_paths:
@@ -36,6 +36,17 @@ global:
       ports:
         postgresql: "5432"
 
+  keycloak:
+    url:
+    realm: "my-realm"
+    client_id: "my-client-id"
+    client_secret_key: "my-secret-key"
+
+  argo:
+    url:
+    namespace: "my-namespace"
+    token: "Bearer my-token"
+
 postgresql:
   image:
     tag: "15.3.0"
@@ -53,3 +64,13 @@ postgresql:
             CREATE EXTENSION IF NOT EXISTS postgis;
             SELECT PostGIS_Version();
           EOF
+
+vreapi:
+  secret_key:
+  auth:
+    superuser_email:
+    superuser_username:
+    superuser_password:
+
+vreapp:
+  secret_key:

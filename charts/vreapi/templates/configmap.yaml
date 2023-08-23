@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ include "vreapi.fullname" . }}"
+  labels:
+    {{- include "vreapi.labels" . | nindent 4 }}
+
+data:
+  ARGO_NAMESPACE: "{{ .Values.global.argo.namespace }}"
+  ARGO_URL: "{{ .Values.global.argo.url }}"
+  BASE_PATH: "{{ include "vreapi.basePath" . }}"
+  CALL_BACK_URL: "https://{{ .Values.global.ingress.host }}{{ include "vreapi.basePath" . }}/"
+  DB_HOST: "{{ .Release.Name }}-postgresql"
+  DB_NAME: "{{ .Values.global.postgresql.auth.database }}"
+  DB_PASSWORD: "{{ .Values.global.postgresql.auth.password }}"
+  DB_PORT: "{{ .Values.global.postgresql.service.ports.postgresql }}"
+  DB_USER: "{{ .Values.global.postgresql.auth.username }}"
+  DJANGO_SUPERUSER_EMAIL: "{{ .Values.auth.superuser_email }}"
+  DJANGO_SUPERUSER_USERNAME: "{{ .Values.auth.superuser_username }}"
+  KEYCLOAK_CLIENT_ID: "{{ .Values.global.keycloak.client_id }}"
+  KEYCLOAK_REALM: "{{ .Values.global.keycloak.realm }}"
+  KEYCLOAK_SERVER_URL: "{{ .Values.global.keycloak.url }}"
+  {{- if contains "test" .Values.global.environment }}
+  DJANGO_SETTINGS_MODULE: "vreapis.settings.development"
+  {{- else if contains "production" .Values.global.environment }}
+  DJANGO_SETTINGS_MODULE: "vreapis.settings.production"
+  ALLOWED_HOST: "*"
+  TRUSTED_ORIGINS: "https://{{ .Values.global.ingress.host }}"
+  CORS_ALLOWED_ORIGIN_REGEXES: '^https:\/\/{{ .Values.global.ingress.host | replace "." "\\." }}:\d+$'
+  {{- end }}
