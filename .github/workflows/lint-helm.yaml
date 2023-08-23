@@ -24,9 +24,10 @@ jobs:
       - name: Test ${{ matrix.paths }}
         id: k8s
         run: |
-          helm template kms . -f ${{ matrix.paths }}  -n kms > output.yaml
-          kubectl create ns kms
-          kubectl apply -f output.yaml -n kms 
+          helm dependency build
+          helm template paas . -f ${{ matrix.paths }}  -n paas > output.yaml
+          kubectl create ns paas
+          kubectl apply -f output.yaml -n paas
           sleep 150
-          kubectl get pods -n kms 
-          kubectl get pods -n kms -o=jsonpath='{.items[*].status.containerStatuses}'  | jq
+          kubectl get pods -n paas
+          kubectl get pods -n paas -o=jsonpath='{.items[*].status.containerStatuses}' | jq
