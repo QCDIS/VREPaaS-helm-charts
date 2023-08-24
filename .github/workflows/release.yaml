@@ -35,6 +35,7 @@ jobs:
 
       - name: Save Helm charts
         run: |
+          helm dependency update
           helm package ${{ github.workspace }} ${{ env.IMAGE_NAME }}
 
       - name: Push Charts to GHCR
