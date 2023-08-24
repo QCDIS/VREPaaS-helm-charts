@@ -20,11 +20,11 @@ data:
   KEYCLOAK_CLIENT_ID: "{{ .Values.global.keycloak.client_id }}"
   KEYCLOAK_REALM: "{{ .Values.global.keycloak.realm }}"
   KEYCLOAK_SERVER_URL: "{{ .Values.global.keycloak.url }}"
+  ALLOWED_HOST: "*"
+  TRUSTED_ORIGINS: "https://{{ .Values.global.ingress.host }}{{ .Values.global.ingress.port }}"
+  CORS_ALLOWED_ORIGIN_REGEXES: '^https:\/\/{{ .Values.global.ingress.host | replace "." "\\." }}:\d+$'
   {{- if contains "test" .Values.global.environment }}
   DJANGO_SETTINGS_MODULE: "vreapis.settings.development"
   {{- else if contains "production" .Values.global.environment }}
   DJANGO_SETTINGS_MODULE: "vreapis.settings.production"
-  ALLOWED_HOST: "*"
-  TRUSTED_ORIGINS: "https://{{ .Values.global.ingress.host }}{{ .Values.global.ingress.port }}"
-  CORS_ALLOWED_ORIGIN_REGEXES: '^https:\/\/{{ .Values.global.ingress.host | replace "." "\\." }}:\d+$'
   {{- end }}
