@@ -1,9 +1,10 @@
 name: Release Charts
 
 on:
-  push:
-    tags:
-      - '*'
+  [push]
+#  push:
+#    tags:
+#      - '*'
 
 env:
   IMAGE_NAME: ghcr.io/${{ github.repository }}:${{ github.ref }}

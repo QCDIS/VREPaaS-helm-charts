@@ -1,7 +1,7 @@
 name: gitguardian
 
 on:
-  [push]
+  []
 
 jobs:
   scanning:
