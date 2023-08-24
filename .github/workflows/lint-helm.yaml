@@ -1,7 +1,7 @@
 name: lint-helm-test-template
 
 on:
-  []
+  [push]
 
 jobs:
   test-n-deploy:
