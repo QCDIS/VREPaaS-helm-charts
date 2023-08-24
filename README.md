@@ -36,5 +36,5 @@ vreapp:
 Run:
 
 ```bash
-helm install paas oci://ghcr.io/qcdis/charts/vrepaas --version 0.1.0 -f values.yaml
+helm install paas oci://ghcr.io/qcdis/charts/vrepaas --version 0.2.0 -f values.yaml
 ```
