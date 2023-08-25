@@ -20,7 +20,7 @@ jobs:
       - name: Start k8s
         uses: helm/kind-action@v1.8.0
         with:
-          kubectl_version: "1.27.3"
+          node_image: "kindest/node:v1.27.3@sha256:3966ac761ae0136263ffdb6cfd4db23ef8a83cba8a463690e98317add2c9ba72"
       - name: Test deployment with ${{ matrix.paths }}
         id: k8s
         run: |
