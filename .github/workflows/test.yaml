@@ -17,10 +17,10 @@ jobs:
         uses: WyriHaximus/github-action-helm3@v3
         with:
           exec: helm lint . -f ${{ matrix.paths }}
-
-      - uses: balchua/microk8s-actions@v0.3.0
+      - name: Start k8s
+        uses: helm/kind-action@v1.8.0
         with:
-          channel: '1.25/stable'
+          kubectl_version: "1.27.3"
       - name: Test deployment with ${{ matrix.paths }}
         id: k8s
         run: |
