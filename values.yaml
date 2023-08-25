@@ -52,10 +52,6 @@ postgresql:
   image:
     tag: "15.3.0"
 
-  primary:
-    persistence:
-      enabled: false
-
     initdb:
       scripts:
         create_extension.sh: |
