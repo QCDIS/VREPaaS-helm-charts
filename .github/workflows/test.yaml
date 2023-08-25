@@ -29,9 +29,7 @@ jobs:
           helm -n paas install paas . -f ${{ matrix.paths }}
           kubectl -n paas wait --for=condition=ready --timeout 1m pod -l "app.kubernetes.io/component=vreapp"
           kubectl -n paas wait --for=condition=ready --timeout 1m pod -l "app.kubernetes.io/component=vreapi"
-          if [ $? -ne 0 ]; then
-            echo "\n\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-            kubectl -n paas describe pod -l "app.kubernetes.io/component=vreapi"
-            echo "\n\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-            kubectl -n paas logs -l "app.kubernetes.io/component=vreapi"
-          fi
+          echo "\n\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+          kubectl -n paas describe pod -l "app.kubernetes.io/component=vreapi"
+          echo "\n\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+          kubectl -n paas logs -l "app.kubernetes.io/component=vreapi"
