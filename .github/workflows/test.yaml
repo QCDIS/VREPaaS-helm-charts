@@ -1,10 +1,10 @@
-name: lint-helm-test-template
+name: Test Charts
 
 on:
   [push]
 
 jobs:
-  test-n-deploy:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
