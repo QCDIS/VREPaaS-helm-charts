@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: test with  ${{ matrix.paths }}
+      - name: Lint with ${{ matrix.paths }}
         uses: WyriHaximus/github-action-helm3@v3
         with:
           exec: helm lint . -f ${{ matrix.paths }}
@@ -21,13 +21,11 @@ jobs:
       - uses: balchua/microk8s-actions@v0.3.0
         with:
           channel: '1.25/stable'
-      - name: Test ${{ matrix.paths }}
+      - name: Test deployment with ${{ matrix.paths }}
         id: k8s
         run: |
-          helm dependency build
-          helm template paas . -f ${{ matrix.paths }}  -n paas > output.yaml
           kubectl create ns paas
-          kubectl apply -f output.yaml -n paas
-          sleep 150
-          kubectl get pods -n paas
-          kubectl get pods -n paas -o=jsonpath='{.items[*].status.containerStatuses}' | jq
+          helm dependency build
+          helm -n paas install paas . -f ${{ matrix.paths }}
+          kubectl -n paas wait --for=condition=ready --timeout 2m pod -l "app.kubernetes.io/component=vreapp"
+          kubectl -n paas wait --for=condition=ready --timeout 2m pod -l "app.kubernetes.io/component=vreapi"
