@@ -52,6 +52,7 @@ postgresql:
   image:
     tag: "15.3.0"
 
+  primary:
     initdb:
       scripts:
         create_extension.sh: |
