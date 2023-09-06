@@ -64,14 +64,11 @@ postgresql:
           EOF
 
 vreapi:
-  secret_key:
+  secret_key: "secret-key"
   auth:
-    superuser_email:
-    superuser_username:
-    superuser_password:
-    username:
-    user_password:
-    token:
-
-vreapp:
-  secret_key:
+    superuser_email: "admin@admin.com"
+    superuser_username: "admin"
+    superuser_password: "secret"
+    username: "user"
+    user_password: "secret"
+    token: "TOKEN"
