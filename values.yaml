@@ -2,8 +2,9 @@ global:
   vreapiEnabled: true
   vreappEnabled: true
   postgresqlEnabled: true
-
   environment: production
+  auth:
+    vre_api_token: "TOKEN"
 
   # base path for each environment (must match VREPaaS/vre-panel/.env.*)
   base_paths:
@@ -71,4 +72,3 @@ vreapi:
     superuser_password: "secret"
     username: "user"
     user_password: "secret"
-    token: "TOKEN"

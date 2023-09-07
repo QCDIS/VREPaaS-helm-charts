@@ -6,7 +6,7 @@ metadata:
     {{- include "vreapp.labels" . | nindent 4 }}
 
 data:
-  VRE_API_TOKEN: "{{ .Values.vreapi.auth.token }}"
+  VRE_API_TOKEN: "{{ .Values.global.auth.vre_api_token }}"
   AUTH0_ID: "{{ .Values.global.keycloak.client_id }}"
   AUTH0_ISSUER: "{{ .Values.global.keycloak.url }}/realms/{{ .Values.global.keycloak.realm }}"
   NEXTAUTH_URL: "https://{{ .Values.global.ingress.host }}{{ .Values.global.ingress.port }}{{ include "vreapp.basePath" . }}/api/auth"
