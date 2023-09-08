@@ -26,6 +26,9 @@ vreapi:
     superuser_email:
     superuser_username: "(pick a username)"
     superuser_password: "(generate a password)"
+    username: "(pick a username)"
+    password: "(generate a password)"
+    token: "(generate a token)"
 
 vreapp:
   secret_key: "(generate random another key)"
