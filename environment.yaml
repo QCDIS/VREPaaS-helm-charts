@@ -1,0 +1,11 @@
+name: paas-helm
+channels:
+  - conda-forge
+dependencies:
+  - pre_commit
+  - python>=3.9
+
+
+
+
+

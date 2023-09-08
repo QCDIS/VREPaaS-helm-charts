@@ -38,3 +38,19 @@ Run:
 ```bash
 helm install paas oci://ghcr.io/qcdis/charts/vrepaas --version 0.5.0 -f values.yaml
 ```
+
+
+## Development
+
+To perform simple tests:
+
+```bash 
+helm dependency update
+```
+```bash
+helm lint .
+```
+```bash
+helm template . --debug
+```
+
