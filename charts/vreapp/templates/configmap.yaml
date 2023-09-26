@@ -10,3 +10,6 @@ data:
   AUTH0_ISSUER: "{{ .Values.global.keycloak.url }}/realms/{{ .Values.global.keycloak.realm }}"
   NEXTAUTH_URL: "https://{{ .Values.global.ingress.host }}:{{ .Values.global.ingress.port }}{{ include "vreapp.basePath" . }}/api/auth"
   NEXTAUTH_URL_INTERNAL: "http://localhost:3000{{ include "vreapp.basePath" . }}/api/auth"
+  {{- if .Values.global.keycloak.insecureSkipTLSVerification }}
+  NODE_TLS_REJECT_UNAUTHORIZED: "0"
+  {{- end }}
