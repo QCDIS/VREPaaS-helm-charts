@@ -1,3 +1,4 @@
+[![Release Charts](https://github.com/QCDIS/VREPaaS-helm-charts/actions/workflows/release.yaml/badge.svg)](https://github.com/QCDIS/VREPaaS-helm-charts/actions/workflows/release.yaml)
 # VREPaaS-helm-charts
 
 ## Installation
