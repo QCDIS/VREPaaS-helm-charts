@@ -1,2 +1,4 @@
 .idea/
 test-values/
+charts/postgresql-12.12.9.tgz
+Chart.lock
