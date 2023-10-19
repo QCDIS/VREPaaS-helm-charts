@@ -16,7 +16,7 @@ jobs:
 
       - name: Add version to Chart.yaml files
         run: |
-          VERSION=$(git describe --tags)
+          VERSION=$(git describe --tags | sed 's/^v//')
           find . -name 'Chart.yaml' | while read file; do
             sed -i "s/version: \"0.0.0-dev\"/version: \"$VERSION\"/g" "$file"
           done
