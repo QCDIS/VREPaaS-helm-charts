@@ -14,6 +14,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Add version to Chart.yaml files
+        run: |
+          VERSION=$(git describe --tags)
+          find . -name 'Chart.yaml' | while read file; do
+            sed -i "s/version: \"0.0.0-dev\"/version: \"$VERSION\"/g" "$file"
+          done
+
       - name: Configure Git
         run: |
           git config user.name "$GITHUB_ACTOR"
