@@ -42,7 +42,6 @@ global:
     realm: "my-realm"
     client_id: "my-client-id"
     client_secret_key: "my-secret-key"
-    insecureSkipTLSVerification: false
 
   argo:
     url:
@@ -76,3 +75,4 @@ vreapi:
 
 vreapp:
   secret_key:
+  insecureSkipTLSVerification: false
