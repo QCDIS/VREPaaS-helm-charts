@@ -29,3 +29,6 @@ data:
   {{- else if contains "production" .Values.global.environment }}
   DJANGO_SETTINGS_MODULE: "vreapis.settings.production"
   {{- end }}
+  {{- if .Values.insecureSkipTLSVerification }}
+  ALLOW_INSECURE_TLS: "True"
+  {{- end }}
