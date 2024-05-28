@@ -48,6 +48,10 @@ global:
     namespace: "my-namespace"
     token: "Bearer my-token"
 
+  k8s_secret_creator:
+    url:
+    token: "my-ksc-token"
+
 postgresql:
   image:
     tag: "15.3.0"

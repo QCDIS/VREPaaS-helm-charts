@@ -8,6 +8,7 @@ metadata:
 data:
   ARGO_NAMESPACE: "{{ .Values.global.argo.namespace }}"
   ARGO_URL: "{{ .Values.global.argo.url }}"
+  K8S_SECRET_CREATOR_URL: "{{ .Values.global.k8s_secret_creator.url }}"
   BASE_PATH: "{{ include "vreapi.basePath" . }}"
   CALL_BACK_URL: "https://{{ .Values.global.ingress.host }}{{ .Values.global.ingress.port }}{{ include "vreapi.basePath" . }}/"
   DB_HOST: "{{ .Release.Name }}-postgresql"
