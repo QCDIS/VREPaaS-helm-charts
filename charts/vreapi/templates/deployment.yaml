@@ -36,6 +36,18 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            {{- if .Values.global.argo.token }}
+            - name: ARGO_API_TOKEN
+              value: "{{ .Values.global.argo.token }}"
+            {{- else if .Values.global.argo.serviceAccountTokenSecretKeyRef }}
+            - name: ARGO_SERVICEACCOUNT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  {{- toYaml .Values.global.argo.serviceAccountTokenSecretKeyRef | nindent 18  }}
+            - name: ARGO_API_TOKEN
+              value: "Bearer $(ARGO_SERVICEACCOUNT_TOKEN)"
+            {{- end }}
           envFrom:
             - configMapRef:
                 name: "{{ include "vreapi.fullname" . }}"
