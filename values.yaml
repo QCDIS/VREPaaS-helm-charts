@@ -46,7 +46,14 @@ global:
   argo:
     url:
     namespace: "my-namespace"
-    token: "Bearer my-token"
+    # Provide either token or serviceAccountTokenSecretKeyRef
+    token:
+    # token: "Bearer my-token"
+    serviceAccountTokenSecretKeyRef: {}
+    # serviceAccountTokenSecretKeyRef:
+    #   name: secret-name
+    #   key: key-name
+
 
   k8s_secret_creator:
     url:

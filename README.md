@@ -20,6 +20,7 @@ global:
     url: "https://host/path"
     namespace: "my-namespace"
     token: "Bearer my-token"
+    # Alternatively, pass serviceAccountTokenSecretKeyRef (see values.yaml)
 
 
 vreapi:
