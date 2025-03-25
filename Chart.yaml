@@ -31,7 +31,3 @@ dependencies:
 - condition: global.vreappEnabled
   name: vreapp
   version: "0.0.0-dev"
-- condition: global.postgresqlEnabled
-  name: postgresql
-  version: "12.x.x"
-  repository: "https://charts.bitnami.com/bitnami"
