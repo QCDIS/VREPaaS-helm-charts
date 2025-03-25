@@ -59,21 +59,6 @@ global:
     url:
     token: "my-ksc-token"
 
-postgresql:
-  image:
-    tag: "15.3.0"
-
-  primary:
-    initdb:
-      scripts:
-        create_extension.sh: |
-          #!/bin/sh
-          export PGPASSWORD=$POSTGRES_POSTGRES_PASSWORD
-          psql -U postgres -d $POSTGRES_DATABASE << EOF
-            CREATE EXTENSION IF NOT EXISTS postgis;
-            SELECT PostGIS_Version();
-          EOF
-
 vreapi:
   secret_key:
   auth:
@@ -84,6 +69,20 @@ vreapi:
     password:
     token:
   insecureSkipTLSVerification: false
+
+  postgresql:
+    image:
+      tag: "15.3.0"
+    primary:
+      initdb:
+        scripts:
+          create_extension.sh: |
+            #!/bin/sh
+            export PGPASSWORD=$POSTGRES_POSTGRES_PASSWORD
+            psql -U postgres -d $POSTGRES_DATABASE << EOF
+              CREATE EXTENSION IF NOT EXISTS postgis;
+              SELECT PostGIS_Version();
+            EOF
 
 vreapp:
   secret_key:

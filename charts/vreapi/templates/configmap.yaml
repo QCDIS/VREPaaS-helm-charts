@@ -11,7 +11,7 @@ data:
   K8S_SECRET_CREATOR_URL: "{{ .Values.global.k8s_secret_creator.url }}"
   BASE_PATH: "{{ include "vreapi.basePath" . }}"
   CALL_BACK_URL: "https://{{ .Values.global.ingress.host }}{{ .Values.global.ingress.port }}{{ include "vreapi.basePath" . }}/"
-  DB_HOST: "{{ .Release.Name }}-postgresql"
+  DB_HOST: "{{ template "postgresql.v1.primary.fullname" .Subcharts.postgresql }}"
   DB_NAME: "{{ .Values.global.postgresql.auth.database }}"
   DB_PASSWORD: "{{ .Values.global.postgresql.auth.password }}"
   DB_PORT: "{{ .Values.global.postgresql.service.ports.postgresql }}"

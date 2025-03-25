@@ -38,7 +38,7 @@ jobs:
 
       - name: Package Helm charts
         run: |
-          helm dependency update
+          helm dependency update charts/vreapi
           helm package ${{ github.workspace }} -d .charts-packages/
 
       - name: Push Charts to GHCR
