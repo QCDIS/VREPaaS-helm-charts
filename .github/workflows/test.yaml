@@ -16,7 +16,9 @@ jobs:
       - name: Lint with ${{ matrix.paths }}
         uses: WyriHaximus/github-action-helm3@v3
         with:
-          exec: helm lint . -f ${{ matrix.paths }}
+          exec: |
+            helm dependency update charts/vreapi
+            helm lint . -f ${{ matrix.paths }}
       - name: Start k8s
         uses: helm/kind-action@v1.8.0
       - name: Test deployment with ${{ matrix.paths }}
