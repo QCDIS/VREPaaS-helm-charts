@@ -71,8 +71,18 @@ vreapi:
   insecureSkipTLSVerification: false
 
   postgresql:
+    global:
+      security:
+        allowInsecureImages: true
     image:
       tag: "15.3.0"
+      repository: bitnamilegacy/postgresql
+    volumePermissions:
+      image:
+        repository: bitnamilegacy/bitnami-shell
+    metrics:
+      image:
+        repository: bitnamilegacy/postgres-exporter
     primary:
       initdb:
         scripts:
