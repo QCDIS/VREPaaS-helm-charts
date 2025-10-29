@@ -1,3 +1,11 @@
+> [!IMPORTANT]
+> NaaVRE has been rewritten and migrated to the [NaaVRE](https://github.com/NaaVRE) organization. This repository is an archive of the legacy implementation. 
+>
+> Quick links to the new NaaVRE:
+> * [Issues](https://github.com/NaaVRE/NaaVRE/issues)
+> * [Architecture](https://github.com/NaaVRE/NaaVRE-architecture)
+> * [Full repos list](https://github.com/NaaVRE/.github/blob/main/profile/README.md)
+
 [![Release Charts](https://github.com/QCDIS/VREPaaS-helm-charts/actions/workflows/release.yaml/badge.svg)](https://github.com/QCDIS/VREPaaS-helm-charts/actions/workflows/release.yaml)
 [![Test Charts](https://github.com/QCDIS/VREPaaS-helm-charts/actions/workflows/test.yaml/badge.svg)](https://github.com/QCDIS/VREPaaS-helm-charts/actions/workflows/test.yaml)
 # VREPaaS-helm-charts
